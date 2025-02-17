@@ -9,7 +9,7 @@ export const createUser = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ message: "User Alreday Registered" });
+      return res.status(400).json({ message: "User Already Registered" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
@@ -46,7 +46,7 @@ export const loginUser = async (req, res) => {
     }
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
-      return res.status(400).json({ mesage: "Wroung Password" });
+      return res.status(400).json({ mesage: "Wrong Password" });
     }
     generateToken(res, user._id);
 
@@ -77,7 +77,9 @@ export const getProfile = async (req, res) => {
   // email: req.user.email,
   //};
   try {
-    const primaryUser = await User.findById({ _id: req.user._id });
+    const primaryUser = await User.findById({ _id: req.user._id }).select(
+      "-password"
+    );
     console.log(`Primary Id:${primaryUser}`);
     return res.status(200).json(primaryUser);
   } catch (error) {
@@ -87,7 +89,11 @@ export const getProfile = async (req, res) => {
   }
 };
 
-export const updateProfile = async (req, res) => {
+/*  export const updateProfile = async (req, res) => {
+   const { password } = req.body;
+  if (!password === "") {
+    const hashedPassword = await bcrypt.hash(password, 10);
+  } 
   try {
     const primaryUser = await User.findByIdAndUpdate(
       { _id: req.user._id },
@@ -105,6 +111,36 @@ export const updateProfile = async (req, res) => {
     return res
       .status(400)
       .json({ message: "Internal Server Error update Controller Controller" });
+  }
+}; */
+export const updateProfile = async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+
+    let hashedPassword;
+    if (password) {
+      hashedPassword = await bcrypt.hash(password, 10);
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        username,
+        email,
+        ...(password && { password: hashedPassword }), // Update password only if provided
+      },
+      { new: true, select: "-password" }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Internal Server Error in updateProfile Controller" });
   }
 };
 
