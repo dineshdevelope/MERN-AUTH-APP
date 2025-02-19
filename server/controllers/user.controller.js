@@ -123,7 +123,7 @@ export const updateProfile = async (req, res) => {
     }
 
     const updatedUser = await User.findByIdAndUpdate(
-      req.user._id,
+      { _id: req.user._id },
       {
         username,
         email,

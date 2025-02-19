@@ -3,11 +3,13 @@ import User from "../models/user.model.js";
 
 const verifyToken = async (req, res, next) => {
   let token;
-  token = req.cookies.token;
+  token = req.cookies.token || req.headers.authorization;
+
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-      req.user = await User.findById(decoded.userId).select("-password");
+      const user = await User.findById(decoded.userId).select("-password");
+      req.user = user;
       next();
     } catch (error) {
       return res.status(400).json({ message: "Invalid Token" });
