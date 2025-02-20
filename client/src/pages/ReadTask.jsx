@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import EmptyTask from "../components/EmptyTask";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { Link } from "react-router-dom";
 
 const ReadTask = () => {
   const [data, setData] = useState([]);
@@ -97,10 +100,10 @@ const ReadTask = () => {
   }, []);
   return (
     <div className="px-3 ">
-      <div className="flex justify-between items-center mt-5">
+      <div className="flex justify-between items-center mt-5 space-x-1">
         <button className="button">
           <span className="text-xs flex">
-            WELCOME {username.toUpperCase() || "User"}
+            WELCOME {username.toUpperCase() || "USER"}
           </span>
         </button>
 
@@ -111,9 +114,52 @@ const ReadTask = () => {
           >
             Add Task
           </button>
-          <button className="text-xs bg-rose-500  p-2 rounded text-gray-100 cursor-pointer hover:bg-rose-600">
+          {/*  Old  Button */}
+          {/* <button className="text-xs bg-rose-500  p-2 rounded text-gray-100 cursor-pointer hover:bg-rose-600">
             Logout
-          </button>
+          </button> */}
+
+          {/*  New  Button */}
+          <div className="max-w-sm ">
+            <Menu as="div" className="relative inline-block text-left">
+              <div>
+                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50">
+                  Settings
+                  <ChevronDownIcon
+                    aria-hidden="true"
+                    className="-mr-1 size-5 text-gray-400"
+                  />
+                </MenuButton>
+              </div>
+
+              <MenuItems
+                transition
+                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+              >
+                <div className="py-1">
+                  <MenuItem>
+                    <Link
+                      to={"/profile"}
+                      className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden "
+                    >
+                      Account settings
+                    </Link>
+                  </MenuItem>
+
+                  {/*  <form action="#" method="POST"> */}
+                  <MenuItem>
+                    <button
+                      type="submit"
+                      className="block w-full px-4 py-2 text-left text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                    >
+                      Sign out
+                    </button>
+                  </MenuItem>
+                  {/*   </form> */}
+                </div>
+              </MenuItems>
+            </Menu>
+          </div>
         </div>
       </div>
       {isModalOpen && (
