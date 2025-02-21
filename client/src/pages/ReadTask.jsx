@@ -22,7 +22,7 @@ const ReadTask = () => {
         withCredentials: true,
       });
       setUsername(res.data.username);
-      console.log(res.data.username);
+      // console.log(res.data.username);
     } catch (error) {
       console.error(error);
     }
@@ -94,6 +94,15 @@ const ReadTask = () => {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await axios.post(`${apiUrl}/api/logout`, { withCredentials: true });
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("Logout Error:", error);
+    }
+  };
+
   useEffect(() => {
     fetchTask();
     fetchUser();
@@ -103,7 +112,7 @@ const ReadTask = () => {
       <div className="flex justify-between items-center mt-5 space-x-1">
         <button className="button">
           <span className="text-xs flex">
-            WELCOME {username.toUpperCase() || "USER"}
+            WELCOME {username.toUpperCase().slice(0, 10) || "USER"}
           </span>
         </button>
 
@@ -148,13 +157,13 @@ const ReadTask = () => {
 
                   {/*  <form action="#" method="POST"> */}
                   <MenuItem>
-                    <Link
-                      to={"/login"}
+                    <button
                       type="submit"
+                      onClick={handleLogout}
                       className="block w-full px-4 py-2 text-left text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
                     >
                       Sign out
-                    </Link>
+                    </button>
                   </MenuItem>
                   {/*   </form> */}
                 </div>

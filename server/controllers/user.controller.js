@@ -62,12 +62,21 @@ export const loginUser = async (req, res) => {
   }
 };
 
-export const logoutUser = (req, res) => {
+/* export const logoutUser = (req, res) => {
   res.cookie("token", "", {
     httpOnly: true,
     expires: new Date(0),
   });
   res.status(200).json({ message: "Logout Sucessfull" });
+}; */
+export const logoutUser = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // Secure cookie in production
+    sameSite: "Strict", // Helps prevent CSRF attacks
+  });
+
+  return res.status(200).json({ message: "Logout Successful" });
 };
 
 export const getProfile = async (req, res) => {
