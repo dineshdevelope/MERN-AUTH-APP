@@ -49,41 +49,39 @@ const ProfilePage = () => {
   };
   return (
     <div>
-      <div className="max-w-md mx-auto mt-10">
-        <h2 className="text-2xl font-bold mb-4">Profile</h2>
+      <div className="max-w-md mx-auto mt-10 px-3">
+        <h2 className="text-2xl font-bold mb-4 text-center">
+          Account Settings
+        </h2>
         {user ? (
-          <div>
+          <div className="space-y-4">
             <p>
               <strong>Username:</strong> {user.username}
             </p>
             <p>
               <strong>Email:</strong> {user.email}
             </p>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center mt-5">
               <div>
-                <Link
-                  to={"/updatepage"}
-                  className="bg-green-500 p-1 rounded text-white"
-                >
+                <Link to={"/updatepage"} className="btn">
                   Update
                 </Link>
               </div>
               <div>
-                <button
-                  className="bg-red-500 p-1 rounded text-white"
-                  onClick={handleDelete}
-                >
+                <button className="btn" onClick={handleDelete}>
                   Delete
                 </button>
               </div>
               <div>
-                <button
-                  className="bg-pink-500 p-1 rounded text-white"
-                  onClick={handleLogout}
-                >
+                <button className="btn" onClick={handleLogout}>
                   Logout
                 </button>
               </div>
+            </div>
+            <div className="flex justify-center mt-10">
+              <Link to={"/readtask"} className="btn">
+                Back
+              </Link>
             </div>
           </div>
         ) : (
