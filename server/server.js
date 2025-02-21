@@ -9,7 +9,7 @@ dotenv.config();
 
 const app = express();
 
-connectDB();
+const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
@@ -22,8 +22,9 @@ app.use(
 );
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+
 app.use("/", userRoute);
 app.use("/task", taskRoute);
 
@@ -31,6 +32,15 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server is Running On http://localhost:${process.env.PORT}`);
-});
+const startServer = async () => {
+  try {
+    await connectDB();
+    app.listen(PORT, () => {
+      console.log(`Server is Running On http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.log("Failed to connect to the database.");
+  }
+};
+
+startServer();
