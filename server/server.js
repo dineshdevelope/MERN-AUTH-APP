@@ -1,10 +1,11 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import connectDB from "./DB/connectDB.js";
 import userRoute from "./routes/user.route.js";
 import taskRoute from "./routes/task.route.js";
-import cookieParser from "cookie-parser";
+
 dotenv.config();
 
 const app = express();
@@ -25,7 +26,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/", userRoute);
+app.use("/api", userRoute);
 app.use("/task", taskRoute);
 
 app.get("/", (req, res) => {

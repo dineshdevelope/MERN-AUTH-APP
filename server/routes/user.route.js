@@ -11,11 +11,11 @@ import verifyToken from "../utils/verifyToken.js";
 
 const router = express.Router();
 
-router.post("/api/register", createUser);
+router.post("/register", createUser);
 
-router.post("/api/login", loginUser);
+router.post("/login", loginUser);
 
-router.post("/api/logout", logoutUser);
+router.post("/logout", logoutUser);
 
 router.get("/profile", verifyToken, getProfile);
 
