@@ -34,7 +34,7 @@ const UpdatePage = () => {
     } else {
       try {
         await axios.put(
-          `${apiUrl}/profile`,
+          `${apiUrl}/api/profile`,
           {
             username,
             email,

@@ -12,7 +12,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await axios.get(`${apiUrl}/profile`, {
+        const res = await axios.get(`${apiUrl}/api/profile`, {
           withCredentials: true,
         });
         setUser(res.data);
@@ -27,7 +27,7 @@ const ProfilePage = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`${apiUrl}/profile`, {
+      await axios.delete(`${apiUrl}/api/profile`, {
         withCredentials: true,
       });
       navigate("/login");

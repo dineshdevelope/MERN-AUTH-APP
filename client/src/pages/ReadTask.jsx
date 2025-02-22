@@ -18,7 +18,7 @@ const ReadTask = () => {
 
   const fetchUser = async () => {
     try {
-      const res = await axios.get(`${apiUrl}/profile`, {
+      const res = await axios.get(`${apiUrl}/api/profile`, {
         withCredentials: true,
       });
       setUsername(res.data.username);

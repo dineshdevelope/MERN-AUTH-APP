@@ -10,6 +10,8 @@ const verifyToken = async (req, res, next) => {
       const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
       const user = await User.findById(decoded.userId).select("-password");
       req.user = user;
+      console.log(user);
+
       next();
     } catch (error) {
       return res.status(400).json({ message: "Invalid Token" });
